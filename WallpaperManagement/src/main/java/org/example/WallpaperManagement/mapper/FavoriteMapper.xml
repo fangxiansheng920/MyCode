@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.WallpaperManagement.mapper.FavoriteMapper">
+
+    <insert id="addFavor">
+        insert into favorite(userId, pictureId)
+        values (#{userId}, #{pictureId})
+    </insert>
+    <delete id="deleteFavor">
+        delete
+        from favorite
+        where userId = #{userId}
+          and pictureId = #{pictureId}
+    </delete>
+    <select id="getFavoriteById" resultType="java.lang.Integer">
+        select count(*)
+        from favorite
+        where userId = #{userId}
+          and pictureId = #{pictureId}
+    </select>
+    <select id="getFavorId" resultType="java.lang.Integer">
+        select pictureId
+        from favorite
+        where userId = #{userId}
+    </select>
+
+
+</mapper>

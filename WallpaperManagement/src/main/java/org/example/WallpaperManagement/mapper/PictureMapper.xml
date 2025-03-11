@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.WallpaperManagement.mapper.PictureMapper">
+    <insert id="addWallpaper">
+        insert into picture(fileName, upUserId, upTime, introduction, name)
+        values (#{fileName}, #{upUserId}, now(), #{introduction}, #{name})
+    </insert>
+
+    <update id="updateWallpaper">
+        update picture
+        set fileName     = #{fileName},
+            introduction = #{introduction},
+            name         = #{name}
+        where id = #{id}
+    </update>
+    <delete id="deleteFileWallpaper">
+        delete
+        from picture
+        where id = #{id}
+    </delete>
+
+    <select id="getAllPicture" resultType="Picture">
+        select *
+        from picture
+    </select>
+
+    <select id="getUserUpPicture" resultType="Picture">
+        select *
+        from picture
+        where upUserId = #{id}
+    </select>
+    <select id="getPictureById" resultType="Picture">
+        select *
+        from picture
+        where id = #{id}
+    </select>
+    <select id="getFavorPicture" resultType="Picture">
+        select * from picture where
+        <if test="ids != null and ids.size() > 0">
+            id in
+            <foreach collection="ids" item="id" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+        </if>
+        limit #{offset}, #{pageSize}
+    </select>
+
+    <select id="getTotalPage" resultType="java.lang.Integer">
+        select count(*) from picture where
+        <if test="ids != null and ids.size() > 0">
+            id in
+            <foreach collection="ids" item="id" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+        </if>
+    </select>
+
+</mapper>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>上传壁纸</title>
+    <link type="text/css" href="css/upWallpaper.css" rel="stylesheet"/>
+    <script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/2.1.3/jquery.min.js"></script>
+    <script src="js/global.js"></script>
+    <script>
+        $(function () {
+            $.ajax({
+                url: "prevent.action"
+            });
+
+            $("#submit").click(function () {
+                $.ajax({
+                    url: "getCurrentInfo.action",
+                    type: "post",
+                    dataType: "json",
+                    success: function (user) {
+                        $("#upUserId").val(user.id);
+                    }
+                });
+
+                if ($("#picture").val() == "") {
+                    alert("上传的壁纸不能为空！");
+                } else if ($("#picture").val() != "") {
+                    var formData = new FormData($("#form")[0]);
+                    $.ajax({
+                        url: "fileUploadWallpaper.action",
+                        type: "post",
+                        data: formData,
+                        async: false,
+                        processData: false,  //是否把参数变成字符串，默认为true，代表变成
+                        contentType: false,   //相当于指定 enctype="multipart/form-data"，默认为true application/x-www-form-urlencoded
+                        success: function (data) {
+                            $("#fileName").val(data);
+                        }
+                    });
+
+                    //在修改其他普通文本数据
+                    $.ajax({
+                        url: "addWallpaper.action",
+                        type: "post",
+                        data: $("#form").serialize(),  //利用表单携带参数，但不提交请求
+                        success: function (data) {
+                            if (data == 1) {
+                                alert("上传成功！");
+                                window.location.reload(); //刷新清空
+                            } else if (data == 0) {
+                                alert("上传失败！");
+                            }
+                        }
+                    });
+                }
+
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="mainBag">
+    <div class="background">
+        <img src="images/6.png">
+    </div>
+</div>
+<div class="maindiv">
+    <div class="group0"><h3 class="move" id="title">上传壁纸</h3></div>
+    <form id="form">
+        <input type="hidden" name="upUserId" id="upUserId">
+        <input type="hidden" name="fileName" id="fileName"/><!--隐藏壁纸路径-->
+        <div class="group1">
+            <div class="field1">
+                <!-- 隐藏文件输入框 -->
+                <input type="file" id="picture" name="picture" class="mess1" style="display: none;"
+                       onchange="previewImage(event)"/>
+                <!-- 自定义的上传区域 -->
+                <div id="uploadArea">
+                    <span id="uploadText">点击上传</span>
+                </div>
+                <!-- 上传的图片显示区域 -->
+                <img id="preview"/>
+            </div>
+        </div>
+        <script>
+            // 图片预览功能
+            function previewImage(event) {
+                var file = event.target.files[0];
+                var reader = new FileReader();
+                var previewImg = document.getElementById('preview');
+                var uploadArea = document.getElementById('uploadArea');
+                reader.onload = function (e) {
+                    var imageUrl = e.target.result;
+
+                    // 隐藏“点击上传”字样，显示上传的图片
+                    previewImg.style.display = 'block';
+                    uploadArea.style.display = 'none';
+                    previewImg.src = imageUrl;
+                };
+
+                //图片预览
+                if (file) {
+                    reader.readAsDataURL(file);
+                }
+            }
+
+            // 点击图片区域重新选择文件
+            document.getElementById('preview').addEventListener('click', function () {
+                document.getElementById('picture').click();
+            });
+
+            // 点击“点击上传”区域触发文件选择框
+            document.getElementById('uploadArea').addEventListener('click', function () {
+                document.getElementById('picture').click();
+            });
+        </script>
+        <div class="group2">
+            <div class="label">
+                <label>名称：</label>
+            </div>
+            <div class="field">
+                <input type="text" class="mess2" id="name" name="name" maxlength="255"/>
+            </div>
+        </div>
+        <div class="group3">
+            <div class="label">
+                <label>描述：</label>
+            </div>
+            <div class="field">
+                <textarea class="mess3" id="introduction" name="introduction" rows="6" cols="40"
+                          placeholder="请输入内容..." maxlength="255"></textarea>
+            </div>
+        </div>
+    </form>
+    <div class="button">
+        <button id="submit" type="button">提交</button>
+    </div>
+</div>
+<div class="but">
+    <button id="return" onclick="window.location.replace('community.html');">
+        <img src="images/return.png">
+    </button>
+</div>
+</body>
+</html>

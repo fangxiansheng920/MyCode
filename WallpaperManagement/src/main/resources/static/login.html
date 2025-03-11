@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+    <link type="text/css" href="css/login.css" rel="stylesheet"/>
+    <script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/2.1.3/jquery.min.js"></script>
+    <script>
+        $(function () {
+            $("#but").click(submit);
+
+            function submit() {
+                var userName = $("#userName").val();
+                var password = $("#password").val();
+                var flag = true;
+
+                // 检查账号和密码是否为空
+                if (userName == "") {
+                    $("#msg").html("账号不许为空!");
+                    flag = false;
+                } else if (password == "") {
+                    $("#msg").html("密码不许为空!");
+                    flag = false;
+                }
+
+                // 如果用户名和密码合法，发起 AJAX 请求
+                if (flag) {
+                    $.ajax({
+                        url: "login.do",
+                        type: "post",
+                        data: {
+                            userName: userName,
+                            password: password
+                        },
+                        success: function (data) {
+                            // 根据不同的返回值处理不同的情况
+                            if (data == 0) {
+                                $("#msg").html("对不起，账号不存在");
+                                $("#userName").val("");
+                            } else if (data == 1) {
+                                $("#msg").html("对不起，账号被封禁");
+                                $("#userName").val("");
+                            } else if (data == 2) {
+                                $("#msg").html("对不起，密码错误");
+                                $("#password").val("");
+                            } else if (data == 3) {
+                                window.location.href = "community.html";  // 登录成功后跳转
+                            }
+                        }
+                    });
+                }
+            }
+
+            $("#userName").on('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); // 防止回车后表单自动提交（如果存在表单的话）
+                    $("#password").focus();  // 聚焦到密码输入框
+                }
+            });
+            $("#password").on('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); // 防止回车后表单自动提交
+                    submit();  // 调用提交函数
+                }
+            });
+        });
+
+    </script>
+</head>
+
+<body>
+<div id="login_wallpaper">
+    <div><img src="images/1.png" width="100%" height="100%"/></div>
+    <div><img src="images/2.png" width="100%" height="100%"/></div>
+    <div><img src="images/3.png" width="100%" height="100%"/></div>
+</div>
+<div id="login">
+    <h3 class="move" id="title">登录</h3>
+
+<!--    <h3 id="title" class="move">登录</h3>-->
+    <div class="msg move" id="msg"></div>
+    <input type="text" placeholder="账号" id="userName" class="txt move" name="账号" required autocomplete="off">
+    <input type="password" placeholder="密码" id="password" class="txt move" name="密码" required>
+    <input type="button" id="but" class="but move" value="登 录"><br>
+    <span><a href="signin.html">注册</a></span>
+</div>
+<script src="./js/demo.js"></script>
+<script src="./js/jquery-1.11.1.min.js"></script>
+
+</body>
+</html>

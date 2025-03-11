@@ -1,0 +1,188 @@
+@charset "utf-8";
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+html, body {
+    overflow: hidden;
+    overflow-y: scroll; /* 保留纵向滚动 */
+}
+
+body::-webkit-scrollbar {
+    display: none; /* 隐藏滚动条 */
+}
+
+.mainBag .background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-filter: blur(9px);
+    transition: background 1s;
+    z-index: -2;
+    overflow: hidden;
+}
+
+
+.mainBag .background img {
+    width: 100%;
+    height: 100%;
+    -webkit-user-drag: none;
+}
+
+.leftdiv {
+    background-color: rgba(255, 255, 255, 0.5);
+    width: 150px;
+    height: auto;
+    float: left;
+    margin-left: 300px;
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 10px;
+}
+
+.leftdiv .profile {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid white;
+}
+
+.leftdiv .profile img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    -webkit-user-drag: none;
+}
+
+.leftdiv .menu {
+    position: relative;
+    margin-top: 10px;
+}
+
+.leftdiv .menu ul li {
+    list-style: none;
+    padding: 10px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    align-items: center;
+    display: flex;
+}
+.leftdiv .menu ul li a {
+    text-decoration: none; /* 去除下划线 */
+    color: #555;
+    display: inline-block;
+    font-weight: 500;
+    transition: 0.5s;
+}
+
+.leftdiv .menu a.active {
+    color: #28c7fc;
+}
+
+.leftdiv ul li:hover a {
+    color: #ec90ec;
+}
+
+.rightdiv {
+    background-color: rgba(255, 255, 255, 0.5);
+    height: auto;
+    width: 500px;
+    float: left;
+    margin-left: 50px;
+    margin-top: 40px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.rightdiv .group {
+    display: flex;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-top: 30px;
+}
+
+.rightdiv input {
+    border-radius: 6px;
+    height: 15px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid #fff;
+    padding: 5px;
+    font-size: 15px;
+}
+
+input[type="file"] {
+    font-size: 12px; /* 调整字体大小 */
+    padding: 8px; /* 添加适当的内边距，确保文本不被裁剪 */
+    width: 175px; /* 根据需要设置控件的宽度 */
+    height: 20px;
+}
+
+.rightdiv form {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.rightdiv button {
+    width: 60px;
+    border-radius: 30px;
+    border: 1px solid white;
+    height: 30px;
+    color: #ffffff;
+    cursor: pointer;
+    margin-left: 200px;
+    background: none;
+}
+
+.rightdiv button:hover {
+    border-radius: 30px;
+    box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.3); /* 鼠标悬停时添加阴影 */
+    transform: translateY(-3px); /* 鼠标悬停时增加轻微的浮动效果 */
+}
+
+.but {
+    width: 100px;
+    height: 100px;
+    margin-left: 100px;
+    margin-top: 270px;
+    position: relative; /* 设置父元素为相对定位 */
+}
+
+.but #return {
+    width: 100px;
+    height: 100px;
+    position: absolute; /* 绝对定位 */
+    top: 0; /* 定位按钮的顶部为父元素的顶部 */
+    left: 0; /* 定位按钮的左侧为父元素的左侧 */
+    z-index: 999;
+    background: transparent; /* 设置背景透明 */
+    border: none; /* 去掉按钮的边框 */
+    padding: 0; /* 去掉内边距，以确保按钮紧贴图标 */
+    cursor: pointer;
+}
+
+
+.but #return:hover {
+    border-radius: 50%;
+    box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.3); /* 鼠标悬停时添加阴影 */
+    transform: translateY(-3px); /* 鼠标悬停时增加轻微的浮动效果 */
+}
+
+.but img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    -webkit-user-drag: none;
+}

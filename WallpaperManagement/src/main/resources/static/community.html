@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>壁纸社区</title>
+    <link type="text/css" href="css/community.css" rel="stylesheet"/>
+    <script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/2.1.3/jquery.min.js"></script>
+    <script src="js/global.js"></script>
+    <script>
+        $(function () {
+
+            if (sessionStorage.getItem("currentIndex1") == null) {
+                // 页面加载，查询所有数据
+                showData(1);
+                sessionStorage.setItem("currentIndex1", "1");
+            } else {
+                let currentIndex = sessionStorage.getItem("currentIndex1");
+                showData(currentIndex);
+            }
+
+            //退出登录按钮事件
+            $("#logout").click(function () {
+                if (confirm("确定注销吗？")) {
+                    logout();
+                }
+            });
+
+            var index = parseInt(sessionStorage.getItem("currentIndex1"));
+
+            // 给分页按钮加事件
+            $("#start").click(function () {
+                showData(1);
+                index = 1;
+                sessionStorage.setItem("currentIndex1", index);
+            });
+
+            $("#next").click(function () {
+                showData(parseInt($("#pageIndex").val()) + 1);
+                index = parseInt($("#pageIndex").val()) + 1;
+                sessionStorage.setItem("currentIndex1", index);
+            });
+
+            $("#pre").click(function () {
+                showData(parseInt($("#pageIndex").val()) - 1);
+                index = parseInt($("#pageIndex").val()) - 1;
+                sessionStorage.setItem("currentIndex1", index);
+            });
+
+            $("#end").click(function () {
+                showData(parseInt($("#pageCount").val()));
+                index = parseInt($("#pageCount").val());
+                sessionStorage.setItem("currentIndex1", index);
+            });
+
+            $("#jumpTo").click(function () {
+                jump(index);
+            });
+
+            $("#pageInput").on('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    // event.preventDefault(); // 防止回车后表单自动提交（如果存在表单的话）
+                    jump(index);
+                }
+            })
+
+            function jump(index) {
+                if ($.isNumeric($("#pageInput").val()) && parseInt($("#pageInput").val()) >= 1 && parseInt($("#pageInput").val()) <= parseInt($("#pageCount").val())) {
+                    showData(parseInt($("#pageInput").val()));
+                    index = parseInt($("#pageInput").val());
+                    sessionStorage.setItem("currentIndex1", index);
+                    $("#pageInput").val("");
+                } else {
+                    alert("您输入的页码格式不对，请重新输入 1 ~ "+($("#pageCount").val())+"以内的数字");
+                    $("#pageInput").val("");
+                }
+            }
+
+            //头像回显
+            $.ajax({
+                url: "getCurrentInfo.action",
+                type: "post",
+                dataType: "json",
+                success: function (user) {
+                    $("#nickname").html(user.nickname);
+                    $("#headImg").attr("src", "avatar/" + user.fileName + "?t=" + new Date().toString());
+                }
+            });
+
+            function logout() {
+                $.ajax({
+                    url: "logout.action",
+                    type: "post",
+                    data: {
+                        flag: "logout"
+                    },
+                    success: function (data) {
+                        if (data == 1) {
+                            alert("注销成功！");
+                            window.location.replace("login.html");
+                        }
+                    }
+                });
+            }
+
+            //分页查询
+            function showData(pageIndex) {
+                $.ajax({
+                    url: "getAllPicture.action",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        pageIndex: pageIndex
+                    },
+                    success: function (data) {
+                        $("#wall").empty();
+                        $.each(data.list, function (key, picture) {
+                            var str = "<div class=\"photo\">\n" +
+                                "            <img id=\"wallpaper"+ (key + 1) +"\" onclick=\"window.location.href='viewWallpaper.html?id=" + picture.id + "'\">\n" +
+                                "        </div>";
+                            $("#wall").append(str);
+                            $("#wallpaper" + (key + 1)).attr("src", "wallpaper/" + picture.fileName + "?t=" + new Date().toString());
+                        });
+
+                        //把当前页记载一下（pageIndex）
+                        $("#pageIndex").val(data.pageNum);
+                        //总页数，用于点击尾页
+                        $("#pageCount").val(data.pages);
+                        //显示当前第几页
+                        $("#nowPageIndex").html("第 "+data.pageNum+" / "+data.pages+" 页");
+                    }
+                });
+            }
+
+            function ternTo(id) {
+
+            }
+        });
+    </script>
+</head>
+<body>
+<input type="hidden" id="pageIndex">
+<input type="hidden" id="pageCount">
+<div class="mainBag">
+    <div class="background">
+        <img src="images/4.png">
+    </div>
+</div>
+<div class="overall">
+    <div class="top-main">
+        <div class="title">
+            <span>Lovely壁纸</span>
+        </div>
+        <nav class="menu">
+            <span onclick="window.location.href='community.html';">壁纸社区</span>
+            <span onclick="window.location.href='personalUp.html';">个人上传</span>
+            <span onclick="window.location.href='personalFavor.html';">个人收藏</span>
+        </nav>
+        <script>
+            // 获取所有的菜单项
+            const menuItems = document.querySelectorAll('.top-main .menu span');
+            // 获取当前页面的URL
+            const currentPage = window.location.pathname;
+            // 遍历所有的菜单项
+            menuItems.forEach(item => {
+                // 获取菜单项的跳转链接
+                const link = item.onclick.toString().match(/window.location.href='(.*)';/)[1];
+                // 如果链接与当前页面匹配，则为该菜单项添加 'active' 类
+                if ("/" + link === currentPage) {
+                    item.classList.add('active');
+                }
+            });
+        </script>
+        <div class="action">
+            <div class="profile">
+                <img id="headImg">
+            </div>
+            <div class="avatarMenu">
+                <span>昵称：</span>
+                <span id="nickname"></span>
+                <ul>
+                    <li><a href="info.html">个人中心</a></li>
+                    <li><a href="upWallpaper.html">上传壁纸</a></li>
+                    <li><a id="logout">退出登录</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="wall" id="wall">
+<!--        <div class="photo">-->
+<!--            <img src="images/1.png" onclick="window.location.href='viewWallpaper.html'">-->
+<!--        </div>-->
+    </div>
+    <div class="bottom-pageList">
+        <span class="index" id="start">首页</span>
+        <span class="index" id="pre">上一页</span>
+        <span class="in" id="nowPageIndex"></span>
+        <span class="index" id="next">下一页</span>
+        <span class="index" id="end">尾页</span>
+        <input type="text" id="pageInput" placeholder="页码" style="width:50px; margin-left:10px;">
+        <span class="index" id="jumpTo">跳转</span>
+    </div>
+</div>
+</body>
+</html>

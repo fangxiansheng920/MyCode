@@ -1,0 +1,169 @@
+@charset "utf-8";
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    overflow: hidden;
+}
+
+#login_wallpaper {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    overflow: hidden;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-filter: blur(9px);
+}
+
+#login_wallpaper div {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+}
+
+#login_wallpaper div img {
+    -webkit-user-drag: none;
+}
+
+#login_wallpaper div:nth-of-type(1) {
+    opacity: 1;
+}
+
+#return {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    z-index: 999;
+    background: transparent; /* 设置背景透明 */
+    border: none; /* 去掉按钮的边框 */
+    padding: 0; /* 去掉内边距，以确保按钮紧贴图标 */
+    margin-left: 100px;
+    margin-top: 70px;
+    cursor: pointer;
+}
+
+#return:hover {
+    border-radius: 50%;
+    box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.3); /* 鼠标悬停时添加阴影 */
+    transform: translateY(-3px); /* 鼠标悬停时增加轻微的浮动效果 */
+}
+
+#return img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    -webkit-user-drag: none;
+}
+
+#login {
+    width: 272px;
+    height: 300px;
+    margin: 200px auto;
+    /*display: flex;*/
+    /*flex-direction: column;*/
+}
+
+#login .move {
+    position: absolute;
+    z-index: 999;
+}
+
+
+#login h3 {
+    font-size: 30px;
+    font-weight: 700;
+    color: #ffffff;
+    font-family: Andalus;
+    text-align: center;
+    margin-bottom: 30px;
+    top: 10%;
+}
+
+#login input.txt {
+    width: 270px;
+    height: 42px;
+    color: #ffffff;
+    background: rgba(45, 45, 45, .15);
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, .15);
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, .1) inset;
+    -webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, .1) inset;
+    -moz-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, .1) inset;
+    margin-bottom: 25px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .1);
+    text-indent: 10px;
+}
+
+#login .userName {
+    top: 20%;
+}
+
+#login .password {
+    top: 30%;
+}
+
+#login .nickname {
+    top: 40%;
+}
+
+#login .mail {
+    top: 50%;
+}
+
+#login .phone {
+    top: 60%;
+}
+
+#login .birthday {
+    top: 70%;
+}
+
+#login input.but {
+    background: rgba(245, 121, 146, 0.71);
+    width: 272px;
+    height: 44px;
+    box-shadow: 0 15px 30px 0 rgba(255, 255, 255, .25) inset, 0 2px 7px 0 rgba(0, 0, 0, .2);
+    -webkit-box-shadow: 0 15px 30px 0 rgba(255, 255, 255, .25) inset, 0 2px 7px 0 rgba(0, 0, 0, .2);
+    -moz-box-shadow: 0 15px 30px 0 rgba(255, 255, 255, .25) inset, 0 2px 7px 0 rgba(0, 0, 0, .2);
+    border: 0px;
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 14px;
+    top: 80%;
+    cursor: pointer;
+}
+
+#login .msg {
+    top: 17%;
+    color: red;
+    font-size: 14px;
+}
+
+#login input:focus {
+    outline: none;
+    -webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, .1) inset, 0 2px 7px 0 rgba(0, 0, 0, .2);
+    -moz-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, .1) inset, 0 2px 7px 0 rgba(0, 0, 0, .2);
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, .1) inset, 0 2px 7px 0 rgba(0, 0, 0, .2);
+}
+
+/*当input获取焦点的时候*/
+input::-webkit-input-placeholder {
+    color: #ffffff;
+}
+
+/*修改输入框默认输入文字颜色*/
+
+
+#title {
+    width: 270px;
+    text-align: center
+}

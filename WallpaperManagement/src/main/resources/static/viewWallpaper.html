@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>壁纸展示</title>
+    <link type="text/css" href="css/viewWallpaper.css" rel="stylesheet"/>
+    <script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/2.1.3/jquery.min.js"></script>
+    <script src="js/global.js"></script>
+    <script>
+        $(function () {
+            var url = window.location.search;  //?id=1
+            var id = url.split("=")[1];
+            $("#pictureId").val(id);
+            //页面回显
+            $.ajax({
+                url: "getPictureById.action",
+                type: "post",
+                data: {
+                    id: id
+                },
+                success: function (picture) {
+
+                    $("#name").html(picture.name);
+                    $("#introduction").html(picture.introduction);
+                    $("#picture").attr("src", "wallpaper/" + picture.fileName + "?t=" + new Date().toString());
+                    $("#pictureName").val(picture.name);
+                    $("#upTime").html(picture.upTime);
+                    //查用户头像和名称
+                    $.ajax({
+                        url: "getUserById.action",
+                        type: "post",
+                        data: {
+                            id: picture.upUserId
+                        },
+                        success: function (user) {
+                            $("#nickname").html(user.nickname);
+                            $("#avatar").attr("src", "avatar/" + user.fileName + "?t=" + new Date().toString());
+                        }
+                    });
+                    //查看这张壁纸是不是本用户上传的
+                    $.ajax({
+                        url: "judgeUser.action",
+                        type: "post",
+                        data: {
+                            id: picture.upUserId
+                        },
+                        success: function (data) {
+                            if (data == 1) {
+                                var str = "<div>\n" +
+                                    "            <button class=\"listbut\" id=\"edit\" onclick=\"window.location.href='editWallpaper.html?id=" + picture.id + "'\">修改</button>\n" +
+                                    "        </div>";
+                                $("#list").append(str);
+                            }
+                        }
+                    });
+
+                    //查favorite数据库
+                    $.ajax({
+                        url: "getFavoriteById.action",
+                        type: "post",
+                        data: {
+                            pictureId: id
+                        },
+                        success: function (data) {
+                            //查看是否收藏了
+                            if (data == 1) {
+                                $("#isFavorited").val(1);
+                                const favoritebut = document.getElementById("listbutFavorite");
+                                favoritebut.classList.add("favorited");
+                                favoritebut.textContent = '已收藏';
+                            } else {
+                                $("#isFavorited").val(0);
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<input type="hidden" id="isFavorited" name="isFavorited">
+<input type="hidden" id="pictureId" name="pictureId">
+<input type="hidden" id="pictureName" name="pictureName">
+<div class="mainBag">
+    <div class="background">
+        <img src="images/8.png">
+    </div>
+</div>
+<div class="but">
+    <button id="return" onclick="window.location.replace('community.html');">
+        <img src="images/return.png">
+    </button>
+</div>
+<div class="show">
+    <img src="" id="picture">
+</div>
+<div class="pictureInfo">
+    <div class="info">
+        <div class="group">
+            <div class="label">
+                <label>名称：</label>
+            </div>
+            <div class="field">
+                <div class="mess" id="name"></div>
+            </div>
+        </div>
+        <div class="group">
+            <div class="label">
+                <label>描述：</label>
+            </div>
+            <div class="field" id="field-intro">
+                <div class="mess" id="introduction"></div>
+            </div>
+        </div>
+        <div class="group">
+            <div class="label">
+                <label>上传时间：</label>
+            </div>
+            <div class="field">
+                <div class="mess" id="upTime"></div>
+            </div>
+        </div>
+        <div class="group">
+            <div class="label">
+                <label>作者：</label>
+            </div>
+            <div class="avatar">
+                <img src="" id="avatar">
+            </div>
+            <div class="field" style="margin-top: 18px; margin-left: 10px">
+                <div class="mess" id="nickname"></div>
+            </div>
+        </div>
+    </div>
+    <div class="list" id="list">
+        <div>
+            <button class="listbut" id="listbutFavorite" onclick="favor()">收藏</button>
+        </div>
+        <div>
+            <button class="listbut" id="download" onclick="downloadWallpaper()">下载</button>
+        </div>
+        <script>
+            function favor() {
+                const favoritebut = document.getElementById("listbutFavorite");
+                if ($("#isFavorited").val() == 1) {
+                    $("#isFavorited").val(0);
+                    favoritebut.classList.remove('favorited');
+                    favoritebut.textContent = '收藏';
+                } else {
+                    $("#isFavorited").val(1);
+                    favoritebut.classList.add('favorited');
+                    favoritebut.textContent = '已收藏';
+                }
+
+                $.ajax({
+                    url: "editFavorite.action",
+                    type: "post",
+                    data: {
+                        isFavorited: $("#isFavorited").val(),
+                        id: $("#pictureId").val()
+                    }
+                });
+            }
+
+            function downloadWallpaper() {
+                const imgElement = document.getElementById('picture');
+                //设定图片的URL地址
+                const imageUrl = imgElement.src;
+                //创建临时的下载链接
+                const link = document.createElement('a');
+                //设置图片的URL
+                link.href = imageUrl;
+                link.download = '【Lovely壁纸】' + $("#pictureName").val() + '.png';
+                //点击按钮后开始下载
+                link.click();
+            }
+        </script>
+    </div>
+</div>
+
+</body>
+</html>

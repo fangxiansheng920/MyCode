@@ -1,0 +1,226 @@
+@charset "utf-8";
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+html, body {
+    overflow: hidden;
+    overflow-y: scroll; /* 保留纵向滚动 */
+}
+
+body::-webkit-scrollbar {
+    display: none; /* 隐藏滚动条 */
+}
+
+.mainBag {
+    width: 100%;
+    height: 100%;
+}
+.mainBag .background {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-filter: blur(9px);
+    transition: background 1s;
+    z-index: -2;
+}
+
+
+.mainBag .background img {
+    width: 100%;
+    height: 100%;
+    -webkit-user-drag: none;
+}
+
+.show {
+    border: 1px solid white;
+    width: 700px;
+    height: 450px;
+    margin-left: 80px;
+    margin-top: 120px;
+    display: flex;
+    z-index: 20;
+    border-radius: 40px;
+    float: left;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 20px;
+}
+
+.show img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+    -webkit-user-drag: none;
+}
+
+.pictureInfo {
+    border: 1px solid white;
+    background: rgba(255, 255, 255, 0.5);
+    width: 500px;
+    height: 600px;
+    margin-left: 1000px;
+    display: flex;
+    z-index: 20;
+    border-radius: 20px;
+    margin-top: 40px;
+    padding: 20px;
+    box-sizing: border-box;
+    flex-direction: column;
+}
+
+.pictureInfo .info {
+    background: rgba(255, 255, 255, 0.5);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    min-height: 100px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.pictureInfo .info .group {
+    display: flex;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-top: 30px;
+    height: auto;
+}
+
+.pictureInfo .info #field-intro {
+    max-width: 370px;
+}
+.pictureInfo .info .field .mess {
+    word-wrap: break-word;
+}
+
+.pictureInfo .info .avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 1px solid white;
+}
+.pictureInfo .info .group .avatar img {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    -webkit-user-drag: none;
+}
+.pictureInfo .list {
+    margin-top: 10px;
+    height: 100px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    box-sizing: border-box;
+}
+
+.pictureInfo .list .listbut:hover {
+    border-radius: 30px;
+    box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.3); /* 鼠标悬停时添加阴影 */
+    transform: translateY(-3px); /* 鼠标悬停时增加轻微的浮动效果 */
+}
+
+.pictureInfo .list #listbutFavorite {
+    border: 1px solid white;
+    width: 100px;
+    border-radius: 30px;
+    font-size: 15px;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    text-align: center;
+    font-family: sans-serif;
+    box-sizing: border-box;
+    background: none;
+    z-index: 1;
+}
+
+.pictureInfo .list #listbutFavorite.favorited {
+    border: 1px solid rgba(255, 169, 240, 0.98);
+    color: rgba(255, 169, 240, 0.98);
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.pictureInfo .list #download {
+    border: 1px solid white;
+    width: 100px;
+    border-radius: 30px;
+    font-size: 15px;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    text-align: center;
+    font-family: sans-serif;
+    box-sizing: border-box;
+    background: none;
+    z-index: 1;
+}
+
+.pictureInfo .list #edit {
+    border: 1px solid white;
+    width: 100px;
+    border-radius: 30px;
+    font-size: 15px;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    text-align: center;
+    font-family: sans-serif;
+    box-sizing: border-box;
+    background: none;
+    z-index: 1;
+}
+
+.but {
+    width: 100px;
+    height: 100px;
+    margin-left: 20px;
+    margin-top: 270px;
+    position: relative; /* 设置父元素为相对定位 */
+    float: left;
+}
+
+.but #return {
+    width: 100%;
+    height: 100%;
+    position: absolute; /* 绝对定位 */
+    top: 0; /* 定位按钮的顶部为父元素的顶部 */
+    left: 0; /* 定位按钮的左侧为父元素的左侧 */
+    z-index: 10;
+    background: transparent; /* 设置背景透明 */
+    border: none; /* 去掉按钮的边框 */
+    padding: 0; /* 去掉内边距，以确保按钮紧贴图标 */
+    cursor: pointer;
+}
+
+
+.but #return:hover {
+    border-radius: 50%;
+    box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.3); /* 鼠标悬停时添加阴影 */
+    transform: translateY(-3px); /* 鼠标悬停时增加轻微的浮动效果 */
+}
+
+.but img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    -webkit-user-drag: none;
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.WallpaperManagement.mapper.UserMapper">
+    <insert id="addUser">
+        insert into user (userName, password, nickname, mail, phone, birthday, recordDay, status)
+        values (#{userName}, #{password}, #{nickname}, #{mail}, #{phone}, #{birthday}, now(), 0)
+    </insert>
+    <update id="updatePassword">
+        update user
+        set password = #{password}
+        where id = #{id}
+    </update>
+    <update id="updateCurrentUser">
+        update user
+        set nickname = #{nickname},
+            mail     = #{mail},
+            phone    = #{phone},
+            birthday = #{birthday},
+            fileName = #{fileName}
+        where id = #{id}
+    </update>
+
+    <select id="getUserByUserName" resultType="User">
+        select *
+        from user
+        where userName = #{userName}
+    </select>
+
+    <select id="getCurrentInfo" resultType="User">
+        select *
+        from user
+        where id = #{id}
+    </select>
+
+</mapper>
